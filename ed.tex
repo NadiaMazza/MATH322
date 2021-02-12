@@ -1,0 +1,1657 @@
+\documentclass[12pt]{article}
+ 
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{makeidx}
+\usepackage{hyperref}
+\usepackage{amsopn}
+\usepackage[curve,matrix,arrow]{xy}
+
+\renewcommand\familydefault{cmss}
+
+\newcommand{\qbox}[1]{\quad\hbox{#1}\quad}
+
+\def\dst{\displaystyle}
+
+
+%\theoremstyle{change}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{nota}[thm]{Notation}
+\newtheorem{example}[thm]{Example}
+\newtheorem{examples}[thm]{Examples}
+\newtheorem{remark}[thm]{Remark}
+
+
+
+%counters
+\renewcommand\theenumi{\roman{enumi}}
+\renewcommand\theenumii{\alph{enumii}}
+%\renewcommand{\thesection}{\Roman{section}}
+\newcounter{ex}\renewcommand\theex{\arabic{ex}}
+\newenvironment{exo}{\begin{flushleft}%
+\textbf{\refstepcounter{ex}Exercise~\theex.}}{\end{flushleft}}
+\setlength{\voffset}{-1.6cm}
+\setlength{\hoffset}{-1cm} 
+\setlength{\textwidth}{16.7cm}
+\setlength{\textheight}{24cm}
+
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\Q}{\ensuremath{\mathbb{Q}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+\newcommand{\F}{\ensuremath{\mathbb{F}}}
+\newcommand{\im}{\ensuremath{\operatorname{im}}}
+\def\ii{\mathrm i}
+\def\Zp{\widehat{\Z}_p}
+
+\def\solution{\em Solution.\;}
+
+\newcommand{\re}{\ensuremath{\operatorname{Re}}}
+\newcommand{\imag}{\ensuremath{\operatorname{Im}}}
+
+\newcommand{\lcm}{\ensuremath{\operatorname{lcm}}}
+
+\newcommand{\id}{\ensuremath{\operatorname{id}}}
+\newcommand{\ls}[2]{{}^{#1}\!{#2}}
+\newcommand{\wh}[1]{\widehat{#1}}
+\newcommand{\ovl}[1]{\overline{#1}}
+
+\renewcommand{\mod}{\ \operatorname{mod}\ }
+\def\chara{\operatorname{char}}
+
+\makeindex
+
+\begin{document}
+
+\noindent{\large{\bf Notation}}
+
+$\N=\{1,2,3,\dots\}$ is the set of natural numbers, $\Z$ the ring of
+integers, $\Q$ the field of rational numbers, $\R$ the field of real
+numbers and $\C$ the field of complex numbers. So, as sets:
+$$\N\subsetneq\Z\subsetneq\Q\subsetneq\R\subsetneq\C.$$
+If $n\in\N$, we write $\Z/n$  for the quotient ring $\Z/n\Z$ (rather
+than $\Z_n$ - the rationale for this choice will become clear when we
+introduce the ring of $p$-adic integers below).
+If $a\in\Z$, we write $\wh a$, or simply $a$ if there is no
+confusion, for the class $a+n\Z=\{a+nb\mid b\in\Z\}$ containing $a$ in
+$\Z/n$. Thus $\Z/n=\{\wh0,\wh1,\dots,\wh{n-1}\}$, or 
+$\Z/n=\{0,1,\dots,n-1\}$ to keep the notation as simple as possible.
+
+\begin{example}
+The multiplication table of $\Z/3$ is as follows:
+$$\begin{array}{|p{1.0cm}|p{1.0cm}|p{1.0cm}|p{1.0cm}|}
+\hline
+&0&1&2\\
+\hline
+0&0&0&0\\
+\hline
+1&0&1&2\\
+\hline
+2&0&2&1\\
+\hline
+\end{array}$$
+\end{example}
+
+
+
+\section{Euclidean domains and principal ideal domains}\label{sec:ed}
+
+Our aim in this section is to
+understand and axiomatise the properties that a ring must have in
+order to allow us to carry out divisions and factorisations in an
+essentially unique way, as we can do in $\Z$ for instance.
+
+We begin with reviewing some needed notions in ring theory, and fixing
+the notation that will be used in these notes.
+
+\subsection{A brief recap on rings and ideals}\label{ssec:recap}
+
+A {\em ring}\index{ring} is always meant to be a {\em unital ring},
+that is, a ring is an abelian group $(R,+)$ equipped with a
+multiplication, denoted by juxtaposition, such that there exists
+$1\in R$ with
+$$a(b+c)=ab+ac,\quad(a+b)c=ac+bc\qbox{and}1a=a1=a,\;\forall\;a\in R.$$
+If the multiplication is commutative, i.e. $ab=ba$ for all $a,b\in R$,
+then we call $R$ {\em commutative}.\index{ring!commutative}
+Most of the rings we will study in this course are commutative rings.
+
+\begin{defn}\label{def:id}
+Let $R$ be a commutative ring.
+
+A {\em zero divisor}\index{zero divisor}
+in $R$ is an element $a\in R$ such that there exists a nonzero element
+$b\in R$ with $ab=0$. We say that $a$ is a {\em nontrivial zero
+divisor}\index{zero divisor!nontrivial} if $a$ is a zero divisor and
+$a\neq0$. (So $0$ is always the unique trivial zero divisor in any
+commutative ring $R$.)
+
+An {\em integral domain}\index{integral domain}, is a
+commutative ring $R$ which has no nontrivial zero divisors. For short,
+an integral domain is written {\em ID}.\index{ID}\index{integral domain!ID}
+\end{defn}
+
+
+In other words, if $R$ is an ID, and $a,b\in R$ are such that $ab=0$,
+then at least one of $a$ or $b$ must be zero.
+
+For instance, $\Z,\Q,\R,\C$ and $\Z/2$ are IDs, but
+$\Z\times\Z,~\Z/4$, and more generally $\Z/n$ for $n$ not a prime, are
+not IDs. 
+
+A key property that IDs hold is the {\em multiplicative cancellation}:
+\index{multiplicative cancellation}
+$$\hbox{Suppose that $R$ is an ID.
+If $0\neq a\in R$ and $b,c\in R$ are such that $ab=ac$, then
+$b=c$.}$$
+
+\smallskip
+Recall that an {\em ideal}\index{ideal} of a ring $R$ is a subgroup
+$I$ of $(R,+)$, such that $ab,ba\in I$ for any $a\in R$ and
+$b\in I$. These are often called {\em two-sided
+ideals}\index{ideal!two-sided} because $I$ is multiplication-closed on
+both sides, but since in commutative algebra we consider commutative
+rings, all ideals are necessarily two-sided, and so we call them
+simply ideals. In particular, given $a\in R$, then the set
+$aR=Ra=\{ar\mid r\in R\}$ is an ideal.
+A {\em generating set}\index{ideal!generating set} for an ideal $I$ is
+a subset $S$ of $I$, such that $I$ is the set of all
+the $R$-linear combinations of the elements of $S$:
+$$I=\{a_1s_1+\cdots+a_ns_n~:~s_i\in S,\;a_i\in R\}.$$
+If $S=\{s_1,\dots,s_n\}$ is finite, we also write $I=s_1R+\cdots+s_nR$
+for the ideal of $R$ generated by $S$.
+An ideal $I$ is
+{\em principal}\index{ideal!principal} if $I$ can be generated by a
+single element, i.e. $I=aR$ for some $a\in R$.
+
+Given two ideals $I,J$ in a commutative ring $R$, we can construct new
+ideals from them: their {\em intersection}\index{ideal!intersection}
+$$I\cap J=\{a\in R~:~a\in I\;\hbox{and}\;a \in J\},$$
+their {\em product}\index{ideal!product}
+$$IJ=\{\hbox{all finite sums}\;\sum_na_nb_n~:~a_n\in I\;\hbox{and}\;b_n\in J\},$$
+and their {\em sum}\index{ideal!sum}
+$$I+J=\{a+b~:~a\in I\;\hbox{and}\;b\in J\}.$$
+They relate in the following diagram, where an edge means that the
+ideal in the bottom vertex is contained in (or equal to) the ideal in
+the upper vertex: 
+$$\xymatrix{&I+J\ar@{-}[dl]\ar@{-}[dr]\\
+I\ar@{-}[dr]&&J\ar@{-}[dl]\\
+&I\cap J\ar@{-}[d]\\&IJ.}$$
+Note that if $I=J$, then the picture 'collapses' to a single segment,
+since $I+I=I\cap I=I$, and in general $I\supsetneq I^2$. 
+
+For completeness, let us give a few useful `arithmetic rules' for
+ideals in a commutative ring.
+Given ideals $I,J,K$, the
+operations of addition and multiplication satisfy the {\em
+distributivity laws}
+$I(J+K)=IJ+IK$ and $(I+J)K=IK+JK$. However
+$I\cap(J+K)\supset(I\cap J)+(I\cap K)$, with equality when $I$
+contains one of $J$ or $K$.
+
+\begin{example}\label{ex:ideals}
+\begin{enumerate}\item
+Let $R=\Z$ and take
+$I=15\Z$ and $J=20\Z$. Then
+$$I+J=5\Z,\quad I\cap J=60\Z\qbox{and}IJ=300\Z.$$
+Note that $5=\gcd(15,20)$ and that $60=\lcm(15,20)$. (This is not a
+coincidence!)
+\item Let $R=\Z[x]$ the polynomial ring over $\Z$. Take
+$I=2R$ and $J=xR$, that is, $I$ is the ideal formed by all the
+polynomials whose coefficients are all even integers, and $J$ is the
+ideal with $0$ constant term. It is a routine exercise to check that
+$I$ and $J$ are ideals of $R$:
+
+\vspace{2.5cm}
+Then $I+J$ is the ideal formed by all the polynomials whose constant
+term is an even integer, and $I\cap J$ is the ideal formed by all the
+polynomials with $0$ constant term and whose coefficients are all even
+integers:
+\vspace{2.5cm}
+
+\end{enumerate}
+\end{example}
+
+You may be well acquainted with the modular equations in $\Z$. That
+is,
+\begin{itemize}
+\item understand what the notation $x\equiv a\pmod u$ means, and
+\item be able to solve a system of modular equations
+$$x\equiv a\pmod u\qbox{and}x\equiv b\pmod v,\qbox{whenever $\gcd(u,v)=1$.}$$
+\end{itemize}
+This notion `$\equiv$' generalises to ideals in any commutative unital
+ring.
+
+
+We will see more ideal theory later in the course. For this section,
+the above are the necessary notions that we need in order to introduce
+the concepts of principal ideal domain and Euclidean domain. 
+
+
+\begin{defn}\label{def:pid}\index{principal ideal domain}
+\index{PID}\index{principal ideal domain!PID}
+Let $R$ be commutative ring. Then $R$ is a
+{\em principal ideal domain}, or {\em PID} for short, if $R$ is an
+{\em integral domain} and if any ideal of
+$R$ is {\em principal}.
+\end{defn}
+
+For instance, in Example~\ref{ex:ideals}, the first instance gives us
+all principal ideals, as each of $I,J,I+J$ and $I\cap J$ are generated
+by a single element, whereas in the second instance $I,J$ and $I\cap J$
+are principal, but $I+J$ isn't: we need two generators. Indeed, since
+$2\in I+J$, if $I+J$ could be generated by one polynomial, say $f\in R$,
+then $\deg f=0$, i.e. $f$ is a (nonzero) integer dividing $2$, so
+$f=\pm1$ or $f=\pm2$. But then, since $x\in I+J$ and $x\notin\pm2R$, the
+generator would be $\pm1$. But $\pm1\notin I+J$, because this is not a
+polynomial with even constant term. Therefore $I+J$ is not principal.
+
+\smallskip
+
+
+Note that the `I' in ID and in PID refer to different concepts. The
+main instances of PIDs are the ring of integers and the (univariate)
+polynomial rings over a field.
+We briefly outline a direct proof of these claims, but as we shall
+shortly see, these two results are consequences of a `stronger'
+property that these two rings possess (cf Theorem~\ref{thm:ed-pid}).
+
+\begin{prop}\label{prop:z-pid}
+The ring $\Z$ of integers is a PID.
+\end{prop}
+
+\begin{proof}
+
+We already know that $\Z$ is an ID. So it suffices to show that every
+ideal $I$ is of the form $I=n\Z$ for some integer $n$, which we may
+suppose to be nonnegative (since $(-n)\Z=n\Z$).
+If $I=\{0\}$, then $I=0\Z$ and we can take $n=0$. Suppose now that
+$I\neq\{0\}$. We claim that $I=n\Z$ for the smallest positive integer
+$n\in I$. 
+
+The inclusion ``$I\supseteq n\Z$'' holds since $n\in I$ implies that
+$nk\in I$ for any $k\in\Z$. Conversely, for the inclusion
+``$I\subseteq n\Z$'', let $j\in I$ be a positive integer. So $j\geq n$, and
+by the division algorithm, $j=nq+r$ for some nonnegative integers $q$
+and $r$, with $0\leq r<n$. But then $r=j-nq$ must also be an element
+of $I$, by definition of an ideal. By choice of $n\in I$, this forces
+$r=0$, and so $j=nq$.
+\end{proof}
+
+Let $\F$ be a field and consider the polynomial ring $\F[x]$ in one
+variable. Recall that you have proved in MATH225 Abstract Algebra that
+the ring $\F[x]$ admits the {\em division algorithm}.
+
+\begin{prop}\label{div-alg}
+Let $\F$ be a field and let $f,g\in\F[x]$, with $g\neq0$.
+Then there exist unique polynomials
+$q,r\in\F[x]$ such that $f=qg+r$ and either $r=0$ or $\deg r<\deg g$.
+\end{prop}
+The polynomial $q$ is called the
+{\em quotient}\index{quotient (division)} and $r$ the
+{\em remainder}\index{remainder (division)} of $f$ divided by $g$.
+
+For instance, if
+$f=3x^4+2x+4$ and $g=x^2-x+1$, then
+long division of polynomials gives
+$q=3x^2+3x$ and $r=-x+4$, and we check that $f=qg+r$.
+
+
+
+\begin{prop}\label{prop:poly-ed}
+Let $\F$ be a field. Then the polynomial ring~$\F[x]$ in one variable
+is a PID. 
+\end{prop}
+
+\begin{proof}
+We know that $\F[x]$ is an ID. So it suffices to show that for
+any ideal $I$ in~$\F[x]$, there exists a polynomial $g\in\F[x]$
+which generates~$I$, in the sense that
+$$I=g\F[x]={\{gh\mid h\in\F[x]\}.}$$
+If $I=\{0\}$, then take $g=0$. Otherwise $I$
+contains at least one nonzero polynomial, and so we may choose 
+$0\neq g\in I$ of smallest possible degree. We claim that
+$I=g\F[x]$. 
+
+The inclusion ``$I\supseteq g\F[x]$'' holds since $g\in I$
+implies that $gh\in I$ for each $h\in\F[x]$. Conversely, for the inclusion
+``$I\subseteq g\F[x]$'', pick a nonzero polynomial $f\in I$.
+By the division algorithm, we can write
+$${f=qg+r,}$$
+where $q,r\in\F[x]$ and
+either $r= 0$ or $\deg r<\deg g$. But then,
+$r=f-qg$ is a polynomial in $\F[x]$, by definition of
+an ideal (because $f$ and $g$ are in~$I$).
+By choice of $g$, this forces $r=0$, and so
+$f=qg\in g\F[x]$.
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Euclidean domains and principal ideal domains (ED \&\ PID)}\label{ssec:ed}
+
+\begin{defn}\label{def:ed} \index{Euclidean function}
+Let~$R$ be an integral domain. 
+A {\em Euclidean function} on~$R$ is a function
+$$v~:~R \setminus \{0\} \to \N_0\ (= \{0,1,2,\dots\}),$$
+such that the following two axioms hold:
+\begin{itemize}
+\item $v(ab)\geq v(a)$ for all $a, b\in R\setminus\{0\}$;
+\item for any $a\in R$ and any $b\in R\setminus\{0\}$, there exist
+$q,r\in R$ such that $a=qb+r$ and either $r=0$ or $v(r)<v(b)$. 
+\end{itemize}
+A {\em Euclidean domain}\index{Euclidean domain} is an integral
+domain~$R$ such that there is a Euclidean function on~$R$. Euclidean
+domains are often written {\em ED}.\index{ED (Euclidean domain)}
+\end{defn}
+
+The second axiom above is reminiscent of the division algorithm,
+similarly to what we have seen with the integers and polynomial rings
+over fields. It is in fact the required property of a commutative ring
+to define a sensible `abstract' division. Let us take a few examples.
+
+\begin{example}\label{ex:ed} 
+\begin{enumerate}
+\item The ring $\Z$ is a Euclidean domain with
+respect to the Euclidean function
+$v~:~\Z\setminus\{0\}\to\N_0$ given by $v(a)=|a|$. 
+Indeed, we know that $\Z$ is an integral domain, and we note that 
+\begin{itemize}
+\item Given $a,b\in\Z\setminus\{0\}$, we have 
+$$v(ab)=|ab|=|a|\cdot|b|\geq|a|=v(a).$$ 
+So the first axiom holds.
+\item Given $a,b\in\Z$ with $b\neq0$, division
+with remainder precisely says that there exist
+$q\in\Z$ and $r\in\N_0$, with $r<|b|$, such that $a=qb+r$. So in
+particular, we have either $r=0$ or $v(r)=|r|=r<|b|=v(b)$, as required.
+\end{itemize}
+\item Let $\F$ be a field. Then the polynomial
+ring $\F[x]$ is a Euclidean domain with respect to the Euclidean
+function $v~:~\F[x]\setminus\{0\}\to\N_0$ given by $v(f)=\deg f$,
+where $\deg f$ is the {\em degree} of the polynomial $f$. Indeed,
+\begin{itemize}
+\item Given $f,g\in\F[x]\setminus\{0\}$, we have 
+$\deg(fg)=\deg f+\deg g\geq\deg f$ (recall that since $\F$ is an ID,
+$\deg fg=\deg f+\deg g$).
+\item Given $f,g\in\F[x]$ with $g\neq0$, the division algorithm 
+shows that there exist polynomials $q,r\in\F[x]$ such that $f=gq+r$
+and $r=0$ or $\deg r<\deg g$, as required.
+\end{itemize}
+\item Let $\F$ be a field, then $\F$ is a Euclidean domain for
+infinitely many Euclidean functions.
+Indeed, pick $n\in\N_0$, and let $v(a)=n$ for all nonzero elements
+$a\in\F$. Then,
+\begin{itemize}\item
+For any $a,b\in\F\setminus\{0\}$, we have 
+$v(ab)=n\geq n=v(a)$.
+\item
+For any $a,b\in\F$ with $b\neq0$, then we can write
+$a=b(b^{-1}a)+0$, since $b^{-1}\in\F$ is defined, and so the second
+axiom holds with $q=b^{-1}a$ and $r=0$.
+\end{itemize}
+One can show (exercise) that any Euclidean function on a field must be
+constant.
+\end{enumerate}
+\end{example}
+
+
+There are many other examples of Euclidean domains. Let us emphasise
+the following ones.
+
+\begin{prop}\label{prop:zi-ed}
+The ring of Gaussian integers $\Z[\ii]=\{a+bi~:~a,b\in\Z\}$ is a
+Euclidean domain for the Euclidean function
+$$v~:~\Z[\ii]\setminus\{0\}\longrightarrow\N_0,\quad v(z)=|z|^2
+\qbox{for all $z\in\Z[\ii]$,}$$
+where $|z|$ is the modulus (or absolute value) of the complex number
+$z$. 
+\end{prop}
+Recall that if $z=a+b\ii\in\Z[\ii]$, then $|z|^2=a^2+b^2$, and that
+$|z|=0$ if and only if $z=0$.
+
+\begin{proof}
+We know that $\Z[\ii]$ is an ID, because $\Z[\ii]$ is a unital subring
+of the field of complex numbers $\C$.
+Now, given $z,z'\in\Z[\ii]$, the modulus is a multiplicative function,
+in the sense that $|zz'|=|z|~|z'|$, and so
+$|zz'|^2=|z|^2~|z'|^2\geq|z|^2$ since $|z|,|z'|\geq1$.
+Next, let $z,z'\in\Z[\ii]$ with $z'\neq0$, say
+$z=a+b\ii$, and $z'=c+d\ii$.
+Then, 
+$$\frac{a+b\ii}{c+d\ii}=\frac{(a+b\ii)(c-d\ii)}{(c+d\ii)(c-d\ii)}=
+\frac{ac+bd}{c^2+d^2}+\frac{bc-ad}{c^2+d^2}\ii,$$
+by amplifying the initial fraction by the complex conjugate of the
+denominator.
+Let $s,t\in\Z$ be the integers nearest $\dst\frac{ac+bd}{c^2+d^2}$ and
+$\dst\frac{bc-ad}{c^2+d^2}$ respectively. That is,
+$$\bigg| s-\frac{ac+bd}{c^2+d^2}\bigg|\leq\frac12\qbox{and}
+\bigg| t-\frac{bc-ad}{c^2+d^2}\bigg|\leq\frac12.$$
+Put $q=s+t\ii$, and $r=z-z'q$, say $r=u+v\ii$.
+So, we have defined $q,r\in\Z[\ii]$ such that $z=qz'+r$, and it
+suffices to show that if $r\neq0$, then $|r|^2<|z'|^2$.
+By definition of $r$, we have
+\begin{align*}
+|r|^2&=|z-z'q|^2=|z'|^2\big|\frac z{z'}-q\big|^2\\
+&=|z'|^2\bigg|\big(s-\frac{ac+bd}{c^2+d^2}\big)+
+\big(t-\frac{bc-ad}{c^2+d^2}\big)\ii\bigg|^2\\
+&=|z'|^2\bigg(\big(s-\frac{ac+bd}{c^2+d^2}\big)^2+
+\big(t-\frac{bc-ad}{c^2+d^2}\big)^2\bigg)\\
+&\leq|z'|^2\bigg(\big(\frac12\big)^2
++\big(\frac12\big)^2\bigg)=\frac12|z'|^2<|z'|^2,
+\end{align*}
+as required.
+\end{proof}
+
+
+A very important family of rings are the {\em $p$-adic integers},
+\index{padic@$p$-adic integers} for
+a prime number $p$. In the literature, they are often denoted as
+$\Z_p$ or $\Zp$. Because of the possible confusion with the
+quotient ring $\Z/p$ (which we may also write $\Z_p$), we will denote
+the ring of $p$-adic integers as $\Zp$. There are several ways
+to define it: as a unital subring of $\Q$, as the {\em localisation}
+of $\Z$ with respect to the prime ideal $p\Z$, and as an
+{\em inverse limit} of the finite quotient rings $\Z/p^n$. At this
+stage in this module, we opt for the first definition, and we use 
+a standard notation.
+
+\begin{defn}\label{def:padics}
+Let $p$ be a prime. The ring of {\em $p$-adic integers} is the subring
+$$\Zp=\{\frac ab\in\Q~:~p\nmid b\}\qbox{of $\Q$.}$$
+\end{defn}
+Note that, for any prime $p$, we have an inclusion map
+$$\Z\longrightarrow\Zp,\quad a\longmapsto\frac a1,\;\forall\;a\in\Z,$$
+which makes sense because $p\nmid1$ for any prime number $p$.
+
+For instance,
+$$\wh{\Z}_2=\big\{\frac a{2b+1}~|~a,b\in\Z\big\}
+\qbox{is the ring of $2$-adic integers,}$$
+that is, the subring of $\Q$ formed by all the (reduced) fractions
+with odd denominator.
+
+
+
+\begin{prop}\label{prop:padics-ed}
+Let $p$ be a prime number. The ring of $p$-adic integers $\Zp$ is a
+Euclidean domain for the Euclidean function defined as follows.
+Any element $x\in\Zp$ can be written as $\dst\frac{p^ea}b$, with
+$p\nmid ab$. The function
+$$v:\Z_p\setminus\{0\}\to\N_0,\quad v\big(\frac{p^ea}b\big)=e$$
+is a Euclidean function on $\Zp$.
+\end{prop}
+
+
+\begin{proof}
+Note that $v$ is well-defined, in the sense that 
+$\dst v\big(\frac{p^ea}b\big)=e\in\N_0$ for any element in $\Zp$.
+Let $\dst x=\frac{p^ea}b$ and $\dst y=\frac{p^fc}d$. Then, 
+$$v(xy)=v\big(\frac{p^{e+f}ac}{bd}\big)=e+f\geq e=v(x),$$
+which proves the first axiom.
+
+For the second axiom of Euclidean
+domains, we want to find $q,r\in\Zp$ such that $x=qy+r$ with $r=0$ or
+$v(r)<v(y)$. 
+Now, if $v(x)=e<f=v(y)$, then put $q=0$ and $r=x$.
+Otherwise, $e\geq f$, and division (in $\Q$) gives
+$$\frac xy=\frac{p^{e-f}ad}{bc},
+\qbox{and we put}q=\frac{p^{e-f}ad}{bc},
+\qbox{and $r=0$.}$$
+Note that $e-f\in\N_0$ and $p\nmid bc$ imply that $q\in\Zp$.
+Therefore $\Zp$ is a Euclidean domain.
+\end{proof}
+
+The main theorem in this section is the following.
+
+\begin{thm}\label{thm:ed-pid}
+Every Euclidean domain is a principal ideal domain.
+\end{thm}
+In other words: ED $\Longrightarrow$ PID.
+
+It is difficult to show that there exist PIDs which are not
+EDs. According to the literature (see \cite[Example 3.62]{rot}, the
+first mathematician to prove the existence of such rings was Theodore
+Motzkin in 1949. He proved that the ring
+$\dst\Z\big[\frac{1+\sqrt{19}\ii}2\big]$ is a PID but not a
+ED.
+
+\begin{proof}
+Suppose that $R$ is a ED.
+We need to prove that $R$ satisfies the two axioms:
+\begin{itemize}
+\item[(i)] $R$ is an ID, and
+\item[(ii)] any ideal of $R$ is principal.
+\end{itemize}
+By definition of ED, we know that $R$ is an ID, and so (i) holds. For
+(ii), we use the fact that $R$ possesses a Euclidean function
+$v:R\setminus\{0\}\to\N_0$ (Definition~\ref{def:ed}).
+Let $I$ be an ideal in $R$.
+We want to show that there exists $a\in I$ such that $I=aR$.
+If $I=\{0\}$, then we take $a=0$ for $I=0R$.
+Otherwise, let $a\in I\setminus\{0\}$ such that $v(a)\in\N_0$ is
+minimum. (Note that $a$ need not be unique.)
+We claim that $I=aR$. Indeed, let $b\in I$. By definition of a
+Euclidean function, there exist $q,r\in R$ such that
+$b=qa+r$ and $r=0$ or $v(r)<v(a)$. Since $a,b\in I$, we also have
+$$r=b-qa\in I,\qbox{and so $r=0$ or $v(r)\geq v(a)$,}$$
+by choice of $a\in I\setminus\{0\}$. Therefore, we must have $r=0$ as
+was left to be shown.
+\end{proof}
+
+As immediate corollary of Theorem~\ref{thm:ed-pid},
+Propositions~\ref{prop:zi-ed} and~\ref{prop:padics-ed}, and
+Example~\ref{ex:ed}, we deduce that $\Z,\F,\F[x],\Z[\ii]$ and $\Zp$
+are PIDs, where $\F$ is a field and $p$ a prime. By contrapositive,
+since we have seen in the second example of Example~\ref{ex:ideals}
+that $\Z[x]$ is not a PID, $\Z[x]$ is not a ED.
+
+This latter point raises the questions of determining when a
+polynomial ring (over a `nice' coefficient ring) is a ED.
+
+\begin{thm}\label{thm:ed-poly}
+Let $R$ be a ring and $R[x]$ the polynomial ring over $R$. TFAE
+\begin{enumerate}
+\item\label{it:ed-poly1} $R[x]$ is a ED.
+\item\label{it:ed-poly2} $R[x]$ is a PID.
+\item\label{it:ed-poly3} $R$ is a field.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+We have already shown that
+(\ref{it:ed-poly3})$\Longrightarrow$
+(\ref{it:ed-poly1})$\Longrightarrow$(\ref{it:ed-poly2}).
+So the only implication that we need to show is 
+(\ref{it:ed-poly2})$\Longrightarrow$
+(\ref{it:ed-poly3}), that is, if $R[x]$ is a PID, then $R$ is a field
+(i.e. any nonzero $a\in R$ is invertible).
+
+Suppose that $R[x]$ is a PID. Let $a\in R\setminus\{0\}$, and let
+$I$ be the ideal
+$$I=\{aa_0+xg~:~a_0\in R,\;\hbox{and}\;g\in R[x]\}\qbox{of $R[x]$,}$$
+formed by the polynomials whose constant term is
+divisible by $a$.
+Let us check that $I$ is an ideal of $R[x]$: First note that
+$0=a0+x0\in I$. Next, if $aa_0+xg,ab_0+fh\in I$
+and $k=c_nx^n+\cdots+c_1x+c_0\in R[x]$, we calculate
+\begin{itemize}\item
+$(aa_0+xg)-(ab_0+fh)=a(a_0-b_0)+x(g-h)\in I$, and
+\item
+$k(aa_0-xg)=a(a_0c_0)+x(gk)\in I$.
+\end{itemize}
+By assumption, $I$ must be principal. That is, there
+exists $f\in I$ such that $I=fR$. Now, $a\in I$ implies that
+$a=fh$ for some $h\in R[x]$, but since $0=\deg a=\deg(fh)=\deg f+\deg h$
+(the last equality holds because $R$ is an ID), we must have
+$\deg f=0$, i.e. $f$ is a nonzero constant polynomial.
+On the other hand,
+$x=0a+1x\in I$ implies that $x=fh$ for some $h\in R[x]$ of degree $1$,
+say $h=b_0+b_1x$, which gives
+$$x=fh=fb_0+fb_1x.$$
+By comparing the coefficients of $x$ and $fb_0+fb_1x$, we get
+$$fb_0=0\qbox{and}fb_1=1.$$
+Thus $f\in I$ implies that $1\in I$.
+By definition $I$ is the ideal formed by the polynomials whose
+constant term is divisible by $a$, and so $1$ is
+divisible by $a$, i.e. $1=ac$ for some $c\in R$, which proves that $a$
+is invertible as was to be shown. 
+\end{proof}
+
+As a `non-example' to the above theorem, let us take again the ring
+$\Z[x]$ of polynomials with integral coefficients. (Recall that $\Z$ is
+not a field.) Let $f=x^3-3x+1$ and
+$g=2x$. Since $\deg f=3>1=\deg g$, we should divide $f$ by $g$. Now,
+because $\dst\frac12\notin\Z$, the division with remainder in $\Z[x]$
+cannot produce a remainder equal to zero or of degree $0$, because to
+eliminate the term $x^3$ in $f$, we need to multiply $f$ by a quotient
+polynomial whose leading term is $\dst\frac12x^2\notin\Z[x]$.
+Thus the second axiom of Euclidean domain fails, giving another proof
+of the fact that $\Z[x]$ is not a ED. 
+
+%%%%%%%%%%%%%%%%%%
+
+\subsection{Invertible elements}\label{ssec:invert}
+
+A useful property of a Euclidean function on a ED is that it helps us
+`detect' invertible elements.
+
+\begin{defn}\label{def:invert}
+Let $R$ be a (commutative unital) ring, with multiplicative identity
+$1$ and additive identity $0$. 
+\begin{enumerate}
+\item
+An element $a\in R$ is {\em invertible}\index{invertible element}
+if there exists $b\in R$ such that $ab=1$. 
+We write $R^\times$ for the set of invertible elements of $R$, and
+$a^{-1}$ for the {\em inverse}\index{inverse}
+$b$ of $a$ in $R$ (see Remark~\ref{rem:elts} below).
+\item If $a,b\in R$, we
+say that {\em $a$ divides $b$}, or that {$a$ is a factor of $b$}, if
+there exists $c\in R$ such that $b=ac$. We then write $a\mid b$ to
+mean that $a$ divides $b$, and $a\nmid b$ to mean that $a$ does no
+divide $b$ in $R$. 
+\item
+Two elements $a,b\in R$ are {\em associated}\index{associated elements}
+if and only if $a\mid b$ and $b\mid a$. We write $a\sim b$
+to mean that $a$ and $b$ are associated. 
+\end{enumerate}
+\end{defn}
+For instance, we can write
+$$3\mid12\qbox{in}\Z\qbox{and}(x-1)\mid(x^2-3x+2)\qbox{in $\Z[x]$,}
+\qbox{and $-4\sim4\in\Z$.}$$
+
+
+Let us record a useful observation about divisibility.
+
+\begin{lemma}\label{lem:div-id}
+Let $R$ be a commutative ring and $a,b\in R$. Then
+$$a\mid b\Longleftrightarrow\;bR\subseteq aR.$$
+\end{lemma}
+
+\begin{proof}
+By definition,
+$a\mid b$ if and only if there exists $c\in R$ such that $b=ac$, which
+is equivalent to saying that $b\in aR$. Consequently $bR\subseteq aR$,
+because and $br\in bR$ can also be written as $br=(ac)r=a(cr)\in aR$,
+for all $r\in R$.
+\end{proof}
+
+\begin{lemma}\label{lem:assoc-elts}
+Let $R$ be an ID, and let $a,b\in R\setminus\{0\}$. 
+Then $a\sim b\Longleftrightarrow\;$ there exists $u\in R^\times$ such
+that $a=ub$.
+\end{lemma}
+
+\begin{proof} Let $a,b\in R\setminus\{0\}$.
+'$\Leftarrow$': The equalities $a=ub$ and $b=u^{-1}a$ say that 
+$b\mid a$ and $a\mid b$, respectively. Therefore $a\sim b$. 
+
+'$\Rightarrow$': Suppose that $a\sim b$, and write $a=bc$ and $b=ad$,
+using that $b\mid a$ and that $a\mid b$, respectively.
+Then,
+$$a=bc=(ad)c=a(dc)\qbox{implies that}1=dc,$$
+by multiplicative cancellation ($R$ is an ID and $a\neq0$). The
+assertion follows. 
+\end{proof}
+
+\smallskip
+
+Recall that if $R$ is not commutative, then $a\in R$ is invertible if
+and only if there exists $b\in R$ such that $ab=ba=1$. In 
+Definition~\ref{def:invert}, we use the fact that $R$ is commutative,
+i.e. $ab=ba$ for all $a,b\in R$ to simplify the definition of an
+invertible element.
+
+\begin{remark}\label{rem:elts}\
+
+\begin{enumerate}\item
+Some textbooks refer to an invertible element as a
+{\em unit}\index{unit} in a ring.
+\item Let $R$ be a commutative ring. If an element $a\in R$ is
+invertible with $ab=1$, then $b$ is also invertible, and moreover, $a$
+can have at most one inverse, since $ab=ac=1$ implies that
+$c=c1=cab=1b=b$. So the notation $a^{-1}$ for the inverse of $a$ is
+well-defined.
+\item An invertible element divides any element in $R$.
+In particular, $u\in R^\times\Longleftrightarrow\;uR=R$.
+\item The set $R^\times$ of invertible elements is a multiplicative
+group. 
+\item The relation `{\em $a$ is associated to $b$ in $R$}' is an 
+equivalence relation.
+\item One could define
+$a\sim b\Longleftrightarrow aR=bR$.
+\end{enumerate}
+\end{remark}
+
+\begin{example}\label{ex:invert-field}
+Let $R$ be an ID. Then $(R[x])^\times=R^\times$.
+
+Indeed, suppose that $f\in R[x]$ is invertible. Let $g\in R[x]$ such
+that $fg=1$, since the constant polynomial $1=1_R$ is the
+multiplicative identity element of $R[x]$. The equality
+$$1=fg\qbox{implies}0=\deg1=\deg f+\deg g\qbox{since $R$ is an ID.}$$
+Therefore, $\deg f=\deg g=0$, saying that $f,g\in R$ are nonzero
+constant polynomials. So, the equality $fg=1$ says that $f,g$ are
+invertible elements of $R$.
+\end{example}
+
+
+\begin{prop}\label{prop:ed-invert}
+Let $R$ be a ED with Euclidean function $v$. The following hold.
+\begin{enumerate}
+\item $v(1)=\min\{v(a)~:~a\in R\setminus\{0\}\}$.
+\item $a\in R$ is invertible if and only if $v(a)=v(1)$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+For the first part, the assertion follows from the observation that 
+$$v(a)=v(1a)\geq v(1)\qbox{for all $a\in R\setminus\{0\}$.}$$
+For the second part, we first suppose that $a\in R^\times$ and aim to
+show that $v(a)=v(1)$.
+By the first part, we know that $v(1)\leq v(a)$.
+On the other hand, write
+$$v(1)=v(aa^{-1})\geq v(a).\qbox{Therefore $v(a)=v(1)$, as
+asserted.}$$
+Conversely, we suppose that $v(a)=v(1)$ and aim to show that
+$a\in R^\times$. 
+By the second axiom of Euclidean domains, there exist $q,r\in R$ such
+that
+$$1=qa+r\qbox{and $r=0$ or $v(r)<v(a)$.}$$
+Since we assume that $v(a)=v(1)=\min\{v(x)~:~x\in R\setminus\{0\}\}$,
+we cannot have $v(r)<v(a)$ for $r\in R\setminus\{0\}$. Therefore $r$
+must be zero. In other words, we have
+$1=qa$, which says that $a$ is invertible.
+\end{proof}
+
+Recall that a field is an ID in which every nonzero element is
+invertible. As a direct application of
+Proposition~\ref{prop:ed-invert}, we conclude that a field has as
+infinitely (countably) many Euclidean functions, as already observed
+in Example~\ref{ex:ed}.
+
+\begin{cor}\label{cor:ed-field}
+Let $R$ be a field. Then $R$ is a Euclidean domain for infinitely many
+Euclidean functions. Namely, for any $n\in\N_0$, the constant function
+$$v_n~:~R\setminus\{0\}\longrightarrow\N_0,\quad
+v_n(a)=n\;\forall\;a\in R\setminus\{0\}$$
+is a Euclidean function on $R$.
+\end{cor}
+
+We wrap up this first section with a selection of
+(non-)examples of EDs, in addition to those already presented above.
+
+\begin{example}
+In each of the following items, decide whether the given ring is a
+ED, and briefly justify your claim. If the given ring is a ED, give
+a Euclidean function on it.
+\begin{enumerate}
+\item $\Z\times\Z$ with addition and multiplication componentwise:
+$$(a,b)+(c,d)=(a+c,b+d)\qbox{and}(a,b)(c,d)=(ac,bd).$$
+\item $\Z/n[x]$, where $n\geq2$ is an integer.
+\item $R/I$ where $R$ is a ED and $I$ an ideal of $R$.
+\item $\Q[x,y]$.
+\item The quotient ring $(\Z\times\Z^\sharp)/I$, where
+$\Z^\sharp=\Z\setminus\{0\}$ and $I=\{(0,a)~:~ a\in\Z^\sharp\}$, and
+where the addition and multiplication in $(\Z\times\Z^\sharp)$ are
+given as follows:
+$$(a,b)+(c,d)=(ad+bc,bd)\qbox{and}(a,b)(c,d)=(ac,bd).$$
+You may assume without proof that $I$ is an ideal of
+$\Z\times\Z^\sharp$.
+\end{enumerate}
+
+{\em Solution.}
+
+\begin{enumerate}
+\item $\Z\times\Z$ is not a ED since not an ID.
+Indeed, $(0,1),(1,0)\neq(0,0)=0_{\Z\times\Z}$ but
+$(0,1)(1,0)=(0,0)$.
+\item $\Z/n[x]$ is a ED if and only if $n$ is prime. Indeed, if $n$ is
+prime, then $\Z/n$ is a field, and so $\Z/n[x]$ is a ED for the degree
+function, by Example~\ref{ex:ed}. If $n$ is not a prime, then $\Z/n$
+is not an ID, and so $\Z/n[x]$ is not an ID either.
+\item $R/I$ where $R$ is a ED and $I$ an ideal of $R$ need not be a
+ED, as can be gathered from the previous example. (We'll come back on
+such quotient rings later in the module - they are ubiquitous in
+commutative algebra!)
+\item $\Q[x,y]$ is not a ED since it is not a PID. Indeed, let $I$ be
+the ideal generated by $x$ and $y$, that is,
+$$I=\{xf+yg~:~f,g\in\Q[x,y]\}.$$
+Suppose that $I$ is principal and let $h\in\Q[x,y]$ such that
+$I=h\Q[x,y]$. Since $x=1x+0y\in I$, there exists a polynomial
+$k\in\Q[x,y]$ such that $x=hk$. Comparing coefficients, we see that
+$h$ must be of the form $f=a_0+a_1x$, for some $a_0, a_1\in\Q$; in
+particular $f$ cannot have any term containing $y$.
+By symmetry, since $y\in I$, we get that $f$ cannot have any term
+containing $x$. So $f\in\Q\setminus\{0\}$ must be a nonzero constant
+(since $I\neq\{0\}$). But by definition,
+$I=\{xf+yg~:~f,g\in\Q[x,y]\}$ cannot contain any nonzero constant, a
+contradiction. Therefore $I$ is not principal and $\Q[x,y]$ cannot be
+a PID.
+\item The quotient ring $R:=(\Z\times\Z^\sharp)/I$ is a ED. Write
+$\wh{(a,b)}$ for the class of $(a,b)\in\Z\times\Z^\sharp$ in the
+quotient ring $R$. To show that $R$ is an ID, it suffices to note that
+$R$ is commutative, by commutativity of $\Z$ and $\Z^\sharp$, and that
+$R$ has no nontrivial zero divisors. By definition of $R$,
+$0_R$ is the class of $I=\{(0,a)~:~a\in\Z^\sharp\}$.
+Indeed, for $b,c\in\Z$ with $c\neq0$,
+$$(0,a)+(b,c)=(0c+ab,ac)=(ab,ac)\sim(b,c)\qbox{for all $a,b,c\in\Z$
+with $ac\neq0$.}$$
+Now, we calculate
+$$0_R=\wh{(a,b)}\wh{(c,d)}=\wh{(ac,bd)}\Longleftrightarrow ac=0\in\Z
+\Leftrightarrow\;\hbox{$a=0$ or $c=0$ (or both)},$$
+i.e. $0_R=\wh{(a,b)}$ or $0_R=\wh{(c,d)}$.
+
+It follows that $-\wh{(a,b)}=\wh{(-a,b)}$ and that
+$1_R=\wh{(1,1)}$ is the class of $\{(c,c)~:~c\in\Z^\sharp\}$,
+since:
+\begin{align*}
+(a,b)+(-a,b)=(-a,b)+(a,b)&=(ab+b(-a),b^2)=(0,b^2)\in I\qbox{and}\\
+(a,b)(c,c)=(c,c)(a,b)&=(ac,bc)\sim(a,b),\\
+\hbox{for all $(a,b)\in\Z\times\Z^\sharp$ and $c\in\Z^\sharp$.}
+\end{align*}
+
+
+To prove that $R$ is a ED, we give a Euclidean function.
+Let $v:R\setminus\{0_R\}\to\N_0$ be the function defined by
+$v(\wh{(a,b)})=1$ for all elements $\wh{(a,b)}\in R$.
+Then for each $\wh{(a,b)},\wh{(c,d)}\in R$,
+$v(\wh{(a,b)}\wh{(c,d)})=1\geq1=v(\wh{(a,b)})$. So the first axiom
+holds. For the second axiom, given $\wh{(a,b)},\wh{(c,d)}\in R$, with
+$\wh{(c,d)}\neq0_R$, i.e. $a\in\Z$ and $b,c,d\neq0\in\Z$, write 
+$$\wh{(a,b)}=\underbrace{\wh{(ad,bc)}}_{=q}\wh{(c,d)}+\underbrace{0_R}_{=r},
+\qbox{and note that}\wh{(ad,bc)}\in R,$$
+since by assumption $b,c\neq0\in\Z$. Note indeed that
+$$\wh{(ad,bc)}\wh{(c,d)}=\wh{(adc,bcd)}=\wh{(a,b)}\wh{(cd,cd)}=\wh{(a,b)},$$
+since, as recorded above, $\wh{(cd,cd)}=1_R$.
+
+(You may have noticed that $R=\Q$, constructed as the
+field of fractions of $\Z$, i.e. the localisation of $\Z$ with respect
+to the ideal $\{0\}$ - we'll come back to
+fields of fractions later in the module.)
+\end{enumerate}
+\end{example}
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Greatest common divisors, Euclidean algorithm and
+B\'ezout's theorem}\label{ssec:gcd} 
+
+\begin{nota}
+Given
+elements $a,b$ in a commutative ring $R$, the notation
+$a\mid b$ means {\em $a$ divides $b$} (in $R$), that is, there exists
+$c\in R$ such that $b=ac$.
+\end{nota}
+
+\begin{defn}\label{def:gcd}
+Let $R$ be a commutative ring and $a_1,\dots,a_n\in R$ ($n\geq2$).
+\begin{enumerate}
+\item An element $d\in R$ is a {\em common divisor} of $a_1,\dots,a_n$
+if $d\mid a_i$ for all $1\leq i\leq n$.\index{common divisor}
+\item An element $d\in R$ is a {\em greatest common divisor} of
+$a_1,\dots,a_n$ if $d$ is a common divisor of $a_1,\dots,a_n$, such
+that any common divisor $c$ of $a_1,\dots,a_n$ is also a divisor of
+$d$. \index{common divisor!greatest common divisor}
+\end{enumerate}
+If $d$ is a greatest common divisor of $a_1,\dots,a_n$, we write
+$d=\gcd(a_1,\dots,a_n)$. \index{gcd@$\gcd(a_1,\dots,a_n)$}
+\end{defn}
+
+
+\begin{remark}\
+
+\begin{enumerate}
+\item
+In some textbooks a greatest common divisor is called a {\em highest
+common factor}.
+\item
+Note that the definition does not guarantee the existence of a
+greatest common divisor for a given $n$-tuple.
+\item
+An invertible element divides any element in a ring. Indeed, if
+$a\in R^\times$, then $b=1b=a(a^{-1}b)$ for any $b\in R$. 
+\item The notation $\gcd(a,b)=d$ is not really well defined because a
+greatest common divisor is not unique. But as we shall see below in
+Proposition~\ref{prop:gcd0}, if it exists, $\gcd(a,b)$ is a unique
+equivalence class of associate elements of $R$, and so we allow
+ourselves this slight abuse of terminology.
+\end{enumerate}
+\end{remark}
+
+We can check that the formal definition matches our understanding of
+a greatest common divisor of integers. For instance,
+$\gcd(12,30)=6$. But we also could have taken $-6$ instead of
+$6$. Indeed, $6$ and $-6$ have the same integer divisors up to
+sign.
+
+But as noted above, greatest common divisors need not exist.
+
+\begin{example}\label{ex:no-gcd}
+Let $R=\{a_nx^n+\cdots+a_2x^2+a_0~:~a_i\in\Q\}\subset\Q[x]$. The polynomials $x^5$
+and $x^6$ have no greatest common divisor.
+Indeed, we have factorisations
+$$x^5=x^2x^3\qbox{and}x^6=x^2x^2x^2=x^3x^3=x^2x^4.$$
+So, both $x^2,x^3$ are common divisors of $x^5$ and $x^6$, but
+$x^2\nmid x^3$ in $R$, and $x^3\nmid x^2$ in $R$. 
+
+(Note that $x^5=\gcd(x^5,x^6)$ in $\Q[x]$, but $x^5\nmid x^6$ in $R$.) 
+\end{example}
+
+\begin{prop}\label{prop:gcd0}
+Let $R$ be an ID and $a_1,\dots,a_n\in R$. Suppose
+that $\gcd(a_1,\dots,a_n)$ exists in $R$, say
+$d=\gcd(a_1,\dots,a_n)\in R$.
+\begin{enumerate}
+\item Any greatest common
+divisor of $a_1,\dots,a_n$ is associated to $d$.
+\item
+$d$ divides any $R$-linear combination of $a_1,\dots,a_n$.
+In particular, if an $R$-linear combination of $a_1,\dots,a_n$ is a
+common divisor of $a_1,\dots,a_n$, then it is a greatest common
+divisor of $a_1,\dots,a_n$.
+\end{enumerate}
+\end{prop}
+
+Recall that if $R$ is a ring, an {\em $R$-linear combination}
+\index{rlinear@$R$-linear combination ($R$ ring)} of elements of
+elements in a set $X$ is a finite sum of the form
+$$\sum_{x\in X}a_xx\qbox{where $a_x\in R$ for all $x\in X$.}$$
+In Proposition~\ref{prop:gcd0}, we take the special case $X=R$, but
+you have seen other examples of $R$-linear combinations, in particular
+with $R$ a field $\F$ and $X$ an $\F$-vector space.
+
+\begin{proof}
+For the first part,
+let $c$ be a greatest common divisor of $a_1,\dots,a_n$. By
+definition,
+\begin{itemize}
+\item $d\mid c$ because $c$ is a greatest common divisor of
+$a_1,\dots,a_n$, and
+\item $c\mid d$ because $d$ is a greatest common divisor of
+$a_1,\dots,a_n$. 
+\end{itemize}
+So $d\mid c$ and $c\mid d$ which shows that $c\sim d$ by
+Definition~\ref{def:invert}.
+
+For the second part, since $d\mid a_i$, there exists $b_i\in R$ such
+that $a_i=b_id$, for all $1\leq i\leq n$.
+So, for any $\lambda_1,\dots,\lambda_n\in R$ we have
+$$\sum_{i=1}^n\lambda_ia_i=\sum_{i=1}^n\lambda_i(b_id)
+=\big(\sum_{i=1}^n\lambda_ib_i\big)d,$$
+showing that $d$ divides any $R$-linear combination of
+$a_1,\dots,a_n$.
+
+In particular, if $c=\dst\sum_{i=1}^n\lambda_ia_i$ is a common divisor
+of $a_1,\dots,a_n$, then $c\mid d$ because $d=\gcd(a_1,\dots,a_n)$,
+and conversely, $d\mid c$ because $d$ divides any $R$-linear
+combination of $a_1,\dots a_n$. Therefore $c\sim d$, which proves that
+$c=\gcd(a_1,\dots,a_n)$. 
+\end{proof}
+
+\begin{example}\label{ex:ea-qx0}
+Let $R=\Q[x]$ and take $f=x^2-x-2$ and $g=x^2+x$.
+Factorising both polynomials, we see that
+$$f=(x-2)(x+1)\qbox{and}g=x(x+1)\qbox{have}\gcd(f,g)=x+1$$
+(or $\gcd(f,g)=a(x+1)$ for any nonzero $a\in\Q$).
+Now note that $x+1=\frac12g-\frac12f$ is a $\Q$-linear combination of
+$f$ and $g$.
+\end{example}
+
+
+
+
+\smallskip
+
+We will now present an algorithm to find a greatest common divisor in
+a Euclidean domain. As a motivation, we start with an explicit
+example.
+
+\begin{example}\label{ex:ea-z}
+Let $a=540$ and $b=168$ in $\Z$. Find $\gcd(a,b)$, and find
+$\lambda,\mu\in\Z$ such that $\gcd(a,b)=\lambda a+\mu b$.
+
+\noindent{\em Solution.}
+
+The Euclidean function on $\Z$ is the absolute value, and we have
+$|540|>|168|$. Division with remainder of $540$ by $168$ gives
+\begin{align*}
+540&=168\cdot3+36,\qbox{division with remainder of $168$ by $36$ gives:}\\
+168&=36\cdot4+24,\qbox{division with remainder of $36$ by $24$ gives:}\\
+36&=24\cdot1+12,\qbox{division with remainder of $24$ by $12$ gives:}\\
+24&=12\cdot2+0.
+\end{align*}
+The last remainder is $0$, saying that $\gcd(540,168)=12$.
+
+Now, to find $\lambda,\mu\in\Z$ such that $\gcd(a,b)=\lambda a+\mu b$,
+we backtrack our computations, transforming the equalities successively:
+\begin{align*}
+12&=36-24\cdot1\\
+&=36-(168-36\cdot4)\cdot1=168(-1)+36\cdot5\\
+&=168(-1)+(540-168\cdot3)\cdot5=
+540\cdot5+168(-16).
+\end{align*}
+So $\lambda=5$ and $\mu=-16$.
+
+\end{example}
+
+Let us now present the formal algorithm. The proof that the algorithm
+works is based on the simple observation that if it exists, then
+$$\gcd(a,b)=\gcd(a,\lambda a+\mu b),$$
+for any $a,b,\lambda,\mu\in R$ such that $\lambda a+\mu b$ is a common
+divisor of $a$ and $b$ (cf. Proposition~\ref{prop:gcd0}).
+
+\begin{thm}[Euclidean algorithm]\label{Euclidean algorithm}
+Let $R$ be a Euclidean domain with Euclidean function $v$.
+Let $a,b\in R$ and suppose that $v(a)\geq v(b)$.
+By definition of a Euclidean domain, there exist $q_1,r_1\in R$ such
+that
+$$a=q_1b+r_1\qbox{and $r_1=0$ or $v(r_1)<v(b)$.}$$
+If $r_1=0$, then $b\mid a$ and so $b=\gcd(a,b)$.
+If $r_1\neq0$, we repeat the above process: there exists $q_2,r_2\in R$
+such that
+$$b=q_2r_1+r_2\qbox{and $r_2=0$ or $v(r_2)<v(r_1)$.}$$
+If $r_2=0$, then $r_1\mid b$ and the equality $a=q_1b+r_1$ shows that
+$r_1\mid a$. Moreover, any common divisor $d$ of $a$ and $b$ must
+divide $a-q_1b=r_1$. Therefore $r_1=\gcd(a,b)$.
+
+This is the routine to continue the algorithm:
+`While $r_n\neq0$, for each $n\geq2$, we are given $r_{n-1},r_n$ with
+$v(r_{n-1})>v(r_n)$. Because $R$ is a Euclidean domain, there exist
+$q_{n+1},r_{n+1}\in R$ such that
+$$r_{n-1}=q_{n+1}r_n+r_{n+1},\qbox{and $r_{n+1}=0$ or $v(r_{n+1})<v(r_n)$.}$$
+Because $v(r_n)\in\N_0$ and the sequence $\big(v(r_n)\big)_{n\geq1}$
+is strictly decreasing, it eventually ends with $0$ after finitely
+many steps. That is, there exists
+$k\geq1$ such that $r_k=0\neq r_{k-1}$.
+
+Then, $\gcd(a,b)=r_{k-1}$, and furthermore, we can successively
+backtrack our sequence of divisions to express $r_{k-1}$ as an
+$R$-linear combination of $a$ and $b$:
+\begin{align*}
+r_{k-1}&=r_{k-3}-q_{k-1}r_{k-2}\\
+&=r_{k-3}-q_{k-1}(r_{k-4}-q_{k-2}r_{k-3})=r_{k-3}(1+q_{k-1}q_{k-2})+r_{k-4}(-q_{k-1})\\
+&=\cdots\;\hbox{(write $r_{k-3}$ in terms of $r_{k-4}$ and $r_{k-5}$)}\;\cdots \\
+&=ua+vb,\qbox{for some $u,v\in R$.}
+\end{align*}
+\end{thm}
+
+We have seen how the algorithm works in $\Z$ in
+Example~\ref{ex:ea-z}, and in an almost trivial fashion in
+Example~\ref{ex:ea-qx0}. We now pick two more examples. 
+
+
+
+
+
+\begin{example}
+Let $R=\Q[x]$ and put $f=x^4-2$ and $g=x^3-2x^2$. The Euclidean
+function on $\Q[x]$ is the degree of a polynomial, and we note that
+$\deg f=4>3=\deg g$. So we divide $f$ by $g$:
+
+$$\begin{array}{rcrrcrcrcrcrcr}
+&&&&&&&&&x&+&2\\
+\cline{3-12}
+x^3&-&2x^2~|&x^4&&&&&&&-&2\\
+&&&x^4&-&2x^3\\
+\cline{4-12}
+&&&&&2x^3&&&&&-&2\\
+&&&&&2x^3&-&4x^2\\
+\cline{5-12}
+&&&&&&&4x^2&&&-&2
+\end{array}$$
+The result is
+$$x^4-2=(x+2)(x^3-2x^2)+4x^2-2\qbox{giving $q_1=x+2$ and
+$r_1=4x^2-2$.}$$
+Now we repeat the process and divide $g$ by $r_1$:
+
+\vspace{2cm}
+
+The result is
+$$x^3-2x^2=(\frac14x-\frac12)(4x^2-2)+\frac12x-1
+\qbox{giving $\dst q_1=\frac14x-\frac12$ and $\dst r_2=\dst\frac12x-1$.}$$
+
+Now we repeat the process and divide $r_1$ by $r_2$:
+
+\vspace{2cm}
+
+The result is
+$$4x^2-2=(8x+16)(\frac12x-1)+14.$$
+Since $14\in\Q[x]^\times$, the algorithm stops (because an invertible
+element divides all the elements in the ring), and shows that
+$$\gcd(x^4-2,x^3-2x^2)=r_2=14\;\hbox{(or equivalently $=1$).}$$
+Now we backtrack our divisions and write $\gcd(f,g)$ as a
+$\Q[x]$-linear combination of $f$ and $g$:
+\begin{align*}
+14&=(4x^2-2)-(8x+16)(\frac12x-1)\\
+&=(4x^2-2)-(8x+16)\big((x^3-2x^2)-(\frac14x-\frac12)(4x^2-2)\big)\\
+&=(4x^2-2)\big(1+(8x+16)(\frac14x-\frac12)\big)-(8x+16)(x^3-2x^2)\\
+&=\big((x^4-2)-(x+2)(x^3-2x^2)\big)(2x^2-7)-(8x+16)(x^3-2x^2)\\
+&=(x^4-2)(2x^2-7)-(x^3-2x^2)\big((x+2)(2x^2-7)+(8x+16)\big),\qbox{that is,}\\
+14&=(x^4-2)(2x^2-7)+(x^3-2x^2)(-2x^3-4x^2-x-2).
+\end{align*}
+A direct check yields:
+\begin{align*}
+(x^4-2)(2x^2-7)&=2x^6-7x^4-4x^2+14\qbox{and}\\
+(x^3-2x^2)(-2x^3-4x^2-x-2)&=-2x^6+7x^4+4x^2.
+\end{align*}
+\end{example}
+
+
+
+
+\begin{example}
+Let $R=\Z/5[x]$ and put $f=3x^4+3x^3+2x^2+4x+2$ and
+$g=2x^5+3x$ in $R$ (where the coefficients are in $\Z/5$, and for ease
+of notation, we have omitted the $\wh{\;}$). Calculate $\gcd(f,g)$ and
+express it as an $R$-linear combination of $f$ and $g$.
+
+\noindent{\em Solution.}
+We have $\deg f=4<5=\deg g$, and so we divide $g$ by $f$ in $R$. 
+
+\vspace{2cm}
+We find
+$$2x^5+3x=(3x^4+3x^3+2x^2+4x+2)\underbrace{(4x+1)}_{=q_1}+
+\underbrace{(4x^3+2x^2+x+3)}_{=r_1}.$$
+We then divide $f$ by $r_1$.
+
+\vspace{2cm}
+We find 
+$$3x^4+3x^3+2x^2+4x+2=(4x^3+2x^2+x+3)\underbrace{(2x+1)}_{=q_2}+
+\underbrace{3x^2+2x+4}_{=r_2}.$$
+We then divide $r_1$ by $r_2$.
+
+\vspace{2cm}
+We find 
+$$4x^3+2x^2+x+3=(3x^2+2x+4)(3x+2)+0,\qbox{saying that}
+\gcd(a,b)=r_2=3x^2+2x+4.$$
+Backtracking our steps, we obtain
+\begin{align*}
+3x^2+2x+4&=
+3x^4+3x^3+2x^2+4x+2-(4x^3+2x^2+x+3)(2x+1)\\
+&=3x^4+3x^3+2x^2+4x+2-\cdots\\
+&\hspace{2.5cm}\cdots-\big(
+(2x^5+3x)-(3x^4+3x^3+2x^2+4x+2)(4x+1)\big)(2x+1)\\
+&=(3x^4+3x^3+2x^2+4x+2)\big(1+(4x+1)(2x+1)\big)-
+(2x^5+3x)(2x+1)\\
+&=(3x^4+3x^3+2x^2+4x+2)(3x^2+x+2)+(2x^5+3x)(3x+4),\qbox{as required.}
+\end{align*}
+In other words,
+$\gcd(f,g)=3x^2+2x+4\in\Z/5[x]$ is equal to the $\Z/5[x]$-linear combination
+$$\gcd(f,g)=sf+tg\qbox{with}s=3x^2+x+2\qbox{and}t=3x+4\in\Z/5[x].$$
+It is always a good idea to check our computations:
+\begin{align*}
+(3x^4+3x^3+2x^2+4x+2)(3x^2+x+2)&=4x^6+2x^5+4x^2+4,\qbox{and}\\
+(2x^5+3x)(3x+4)&=x^6+3x^5+4x^2+2x,\qbox{which add up to}\\
+&=3x^2+2x+4\qbox{in $\Z/5[x]$.}
+\end{align*}
+
+\end{example}
+
+\smallskip
+The Euclidean algorithm shows that in a Euclidean domain $R$:
+\begin{itemize}
+\item given any elements $a,b\in R$ (which we may assume to be nonzero
+and not invertible, to avoid `trivialities'), then $\gcd(a,b)$ exists,
+and
+\item there exists an algorithm to express a greatest common divisor
+of $a,b$ as an $R$-linear combination of $a$ and $b$.
+\end{itemize}
+It is then natural to ask ourselves if there exists a wider class of
+commutative rings for which these facts hold, but perhaps we do not
+have an explicit algorithm to calculate greatest common divisors. The
+answer is given by {\em B\'ezout's theorem}.\index{B\'ezout's theorem}
+
+\begin{thm}[B\'ezout's theorem]\label{thm:bezout}
+Let $R$ be a PID and $a_1,\dots,a_n\in R$. The following hold.
+\begin{enumerate}
+\item $\gcd(a_1,\dots,a_n)$ exists in $R$, and
+\item a greatest common divisor of $a_1,\dots,a_n$ is 
+an $R$-linear combination of $a_1,\dots,a_n$. 
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+Let $I$ be the ideal generated by $a_1,\dots,a_n$, that is,
+$$I=a_1R+\cdots+a_nR=\{a_1b_1+\cdots+a_nb_n~:~b_1,\dots,b_n\in R\}.$$
+Because $R$ is a PID, the ideal $I$ is principal, and so there exists
+$d\in R$ such that $I=dR$. We claim that $d=\gcd(a_1,\dots,a_n)$:
+\begin{itemize}
+\item The inclusion $a_jR\subseteq I=dR$ implies that $a_j\in dR$,
+or equivalently that $d\mid a_j$, for all
+$1\leq j\leq n$. Therefore $d$ is a common divisor of $a_1,\dots,a_n$.
+\item Since $d\in I$, it is an $R$-linear combination of
+$a_1,\dots,a_n$, i.e. $d=a_1b_1+\cdots+a_nb_n$ for some
+$b_1,\dots,b_n\in R$. Now, if $c$ is a common divisor of
+$a_1,\dots,a_n$, then $c$ divides any $R$-linear combination of
+$a_1,\dots,a_n$, and so, in particular, $c$ divides $d$.
+\end{itemize}
+Therefore, we have proved that $d=\gcd(a_1,\dots,a_n)$ exists in $R$,
+and that $d$ is an $R$-linear combination of $a_1,\dots,a_n$.
+Since we know (Proposition~\ref{prop:gcd0}) that any two greatest
+common divisors of a given $n$-tuple are associated, we conclude that
+any $\gcd(a_1,\dots,a_n)$ is an $R$-linear combination of
+$a_1,\dots,a_n$ too, and the theorem holds. 
+\end{proof}
+
+A special case for consideration is when, given $a,b\in R$, we find
+$\gcd(a,b)\in R^\times$. If $R$ is a PID, then B\'ezout's theorem
+shows that we can write $1$ as an $R$-linear combination of $a$ and
+$b$. (You may have seen this with $R=\Z$.)
+
+\begin{defn}\label{def:coprime}
+Let $R$ be a commutative ring and $a_1,\dots,a_n\in R$. We say that
+$a_1,\dots,a_n$ are {\em coprime}\index{coprime} if 
+their only common factors are the invertible elements of $R$.
+\end{defn}
+
+For instance, let $a,b\in\Z$. Then $a$ and $b$ are coprime if and only
+if $a\in(\Z/b)^\times$. Indeed, $a$ and $b$ are coprime if and only if
+there exists $c,d\in\Z$ such that $1=ac+bd$, which, modulo $b$, gives
+the equality $1=ac\in\Z/b$, and shows that
+$a\in(\Z/b)^\times$. Conversely, if $a\in(\Z/b)^\times$, then there exists
+$u\in\Z/b$ such that $au=1\in\Z/b$, i.e. there exists $v\in\Z$ such
+that $au+bv=1\in\Z$.
+
+\begin{cor}\label{cor:bezout}
+Let $R$ be a PID and $a_1,\dots,a_n\in R$. Suppose that 
+$\gcd(a_1,\dots,a_n)\in R^\times$. The following holds:
+\begin{enumerate}
+\item $1$ is an $R$-linear combination of $a_1,\dots,a_n$.
+\item The ideal $I=a_1R+\cdots+a_nR$ generated by the $a_i$'s is
+improper, i.e. $I=R$.
+\end{enumerate}
+\end{cor}
+
+\begin{proof}
+For the first assertion, it suffices to recall that the group of
+invertible elements $R^\times$ of $R$ is equal to the set of associate
+elements to $1$ in $R$. Since greatest common divisors are defined up
+to associate elements, $1=\gcd(a_1,\dots,a_n)$, and B\'ezout's theorem
+shows that $1$ is an $R$-linear combination of $a_1,\dots,a_n$.
+
+For the second assertion, write
+$1=a_1b_1+\cdots+a_nb_n$ as an $R$-linear combination of
+$a_1,\dots,a_n$. Then for any $r\in R$, we have
+$$r=1r=(a_1b_1+\cdots+a_nb_n)r=a_1(b_1r)+\cdots+a_n(b_nr)\in I
+\qbox{showing that}R\subseteq I.$$
+Since $I\subseteq R$ by definition, we conclude that $R=I$ as required.
+\end{proof}
+
+The assumption `$R$ is a PID' in B\'ezout's cannot be weakened.
+
+\begin{example}
+Let $R=\Z[x]$. Recall that $R$ is an ID but not a PID. Let $f=2$ and
+$g=x$, both regarded as polynomials in $R$. The only divisors of $2$
+in $\Z[x]$ are $\{\pm1,\pm2\}$, and those of $x$ are
+$\{\pm1,\pm x\}$. So their only common divisors are the invertible
+elements of $\Z[x]$, and we can take $\gcd(f,g)=1$.
+We observe that $1$ is not a $\Z[x]$-linear combination of $2$ and $x$,
+indeed, suppose that there exist $u,v\in\Z[x]$ such that
+$1=2u+xv$. Then, the constant term on the left hand side of the
+equality is odd, whereas that on the right hand side is even, a
+contradiction.
+
+In other words, in $\Z[x]$ we could find a greatest common divisor of
+$2$ and $x$, but we could not express it as a $\Z[x]$-linear
+combination of $2$ and $x$. (We'll see in the next section the class
+of rings in which greatest common divisors always exist, and this
+class comprises $\Z[x]$.)
+
+\end{example}
+
+If $R$ is an ED, then we can use the Euclidean algorithm to find a
+greatest common divisor of an $n$-tuple $a_1,\dots,a_n$ using the
+observation that
+$$\gcd(a_1,a_2,\dots,a_n)=\gcd\big(\gcd(a_1,a_2),\dots,a_n\big).$$
+
+\begin{example}
+Show that $10,14$ and $35$ are coprime in $\Z$ and use the Euclidean
+algorithm to express $1$ as a $\Z$-linear combination of $10,14,35$.
+
+\noindent{\em Solution.}
+The order in which we take $10,14,35$ does not matter, so let's first
+calculate
+$\gcd(10,14)$.
+
+Using the algorithm we divide $14$ by $10$ and get
+$14=1(10)+4$.
+
+Then dividing $10$ by $4$ gives
+$10=2(4)+2$, and then dividing $4$ by $2$ has no remainder. Thus, this
+elaborated method yields $2=\gcd(10,14)$, with
+$$2=10-2(4)=10-2(14-1(10))=-2(14)+3(10).$$
+
+Thus, $\gcd(10,14,35)=\gcd(\gcd(10,14),35)=\gcd(2,35)$, and
+the equality $35=17(2)+1$ shows that $1=\gcd(2,35)$ (we can stop the
+algorithm as soon as we hit an invertible element, which necessarily
+must be a greatest common divisor).
+Finally,
+$$1=35-17(2)=35-17\big(-2(14)+3(10)\big)=35+34(14)-51(10).$$
+Note however that such a linear combination is not unique (and this
+one is certainly not the most `economical'), since, for instance,
+$$1=35+(-1)14+(-2)10.$$
+
+
+\end{example}
+
+\vfill
+\newpage
+
+\subsection{Exercises}
+
+\begin{exo}
+Let $R$ be a commutative ring. Prove that the additive inverse $-1$ of
+the multiplicative identity element $1\in R$ is invertible in $R$.
+\end{exo}
+
+\begin{exo}
+Prove that the following commutative rings are not integral domains.
+\begin{enumerate}
+\item $\Z\times\Z$ with the pointwise addition and multiplication:
+$(a,b)+(c,d)=(a+c,b+d)$ and $(a,b)(c,d)=(ac,bd)$.
+\item $\Z/32$.
+\end{enumerate}
+\end{exo}
+
+\begin{exo}
+Let $R$ be a commutative ring, and let $I,J,K$ be ideals in $R$.
+\begin{enumerate}
+\item Prove that $I^2\subseteq I$, and find an example of $R$ and $I$
+with $I^2\subsetneq I$.
+\item Prove that $(I+J)K=IK+JK$.
+\item Prove that $(I+J)\cap K\supseteq IK\cap JK$,
+and find an example of $R$ and $I,J,K$
+with $(I+J)\cap K\supsetneq IK\cap JK$.
+\end{enumerate}
+\end{exo}
+
+\begin{exo}
+Let $R=\R^{\N_0}$ be the ring whose elements are the sequences
+$(a_0,a_1,a_2,\dots)$ in $\R$, with coordinatewise addition and
+multiplication.
+Let $I=\{(0,a_1,a_2,\dots)~:~a_i\in\R,\;\forall\;i\in\N\}$ be the
+subset of sequences with initial term $a_0=0$.
+\begin{enumerate}
+\item Prove that $I$ is an ideal of $R$.
+\item Prove that $I$ is not finitely generated as ideal of $R$.
+\end{enumerate}
+\end{exo}
+
+
+
+\begin{exo}
+Find the invertible elements of the following commutative rings.
+\begin{enumerate}
+\item $\Q[x]$,
+\item $\Zp$,
+\item $\Z[\sqrt2]=\{a+b\sqrt2~:~a,b\in\Z\}$,
+\item $\Q[\sqrt2]=\{a+b\sqrt2~:~a,b\in\Q\}$,
+\item $\Z/24$,
+\item $\Z/156$.
+\end{enumerate}
+\end{exo}
+
+
+\begin{exo}\label{ex:assoc}
+Prove the following assertions from Remark~\ref{rem:elts}
+\begin{enumerate}
+\item An invertible element divides any element in $R$.
+In particular, $u\in R^\times\Longleftrightarrow\;uR=R$.
+\item The set $R^\times$ of invertible elements is a multiplicative
+group. 
+\item The relation `{\em $a$ is associated to $b$ in $R$}' is an 
+equivalence relation.
+\item One could define
+$a\sim b\Longleftrightarrow aR=bR$.
+\end{enumerate}
+\end{exo}
+
+\begin{exo}
+Let $\Z[\sqrt3]=\{a+b\sqrt3~:~a,b\in\Z\}$ and
+$\Z[\sqrt2\ii]=\{a+b\sqrt2\ii~:~a,b\in\Z\}$.
+You may assume without proof that $\Z[\sqrt3]$ and
+$\Z[\sqrt2\ii]$ are Euclidean domains.
+\begin{enumerate}
+\item Prove that $2+\sqrt3\in\Z[\sqrt3]^\times$. Hence deduce that 
+$\Z[\sqrt3]^\times$ is infinite.
+\item Prove that if $a+b\sqrt3\in\Z[\sqrt3]^\times$, then
+$(a+b\sqrt3)^{-1}=\pm(a-b\sqrt3)$.
+\item Find $\Z[\sqrt2\ii]^\times$.
+\end{enumerate}
+\end{exo}
+
+\begin{exo}
+Let $R$ be the ring of continuous real functions $\R\to\R$.
+\begin{enumerate}\item
+Prove that $R$ is a commutative ring for the addition and
+multiplication defined pointwise:
+$$(f+g),(fg):\R\to\R\qbox{are the functions:}\left\{
+\begin{array}{l}
+(f+g)(x)=f(x)+g(x)\\(fg)(x)=f(x)g(x)\end{array}\right\}\;\forall\;x\in\R.$$
+\item Give the multiplicative and additive identity elements of $R$.
+\item Decide whether $R$ is an integral domain and prove your claim.
+\item Let $I=\{f\in R~:~f(x_0)=0\}$ for a fixed $x_0\in\R$. Prove that
+$I$ is an ideal of $R$. Decide whether $I$ is a principal ideal, and
+prove your claim.
+\end{enumerate} 
+\end{exo}
+
+
+\begin{exo}
+Let $\Z[\sqrt2\ii]=\{a+b\sqrt2\ii~:~a,b\in\Z\}$.
+The aim of the exercise is to prove that $\Z[\sqrt2\ii]$ is a ED.
+\begin{enumerate}
+\item
+Prove that $\Z[\sqrt2\ii]$ is a commutative unital subring of
+$\C$. Deduce from this fact that $\Z[\sqrt2\ii]$ is an ID.
+\item\label{exit-ed1}
+Prove that for any $z\in\C$, there exists
+$a+b\sqrt2\ii\in\Z[\sqrt2\ii]$ such that the modulus square
+$|z-(a+b\sqrt2\ii)|^2\leq\dst\frac34$.
+\item Use part~\ref{exit-ed1}. to show that the function
+$$v:\Z[\sqrt2\ii]\setminus\{0\}\longrightarrow\N_0,\qbox{defined by}
+v(a+b\sqrt2\ii)=a^2+2b^2,\;\forall\;a,b\in\Z$$
+is a Euclidean function on $\Z[\sqrt2\ii]$, and so $\Z[\sqrt2\ii]$ is
+a ED. 
+\end{enumerate}
+\end{exo}
+
+\begin{exo}
+Let $R=\Z[\sqrt2]$ and define $v:R\setminus\{0\}\to\N_0$ to be the
+function $v(a+\sqrt2b)=|a^2-2b^2|$ (absolute value in $\R$).
+\begin{enumerate}
+\item
+Prove that $\Z[\sqrt2]$ is a commutative unital subring of
+$\R$. Deduce from this fact that $\Z[\sqrt2]$ is an ID.
+\item Prove that $v(xy)=v(x)v(y)$ for any $x,y\in R\setminus\{0\}$.
+\item Prove that for any $x\in\Q$, there exists
+$a+b\sqrt2\in\Z[\sqrt2]$ such that 
+$\big(x-(a+b\sqrt2)\big)^2\leq\dst\frac34$. Deduce from this fact that 
+$v$ is a Euclidean function on $\Z[\sqrt2]$, and so $\Z[\sqrt2]$ is
+a Euclidean domain.
+\item
+Find $q,r\in R$ such that $x=4+\sqrt2$ and $y=1-2\sqrt2$ satisfy the
+equality $x=qy+r$, with $r=0$ or $v(r)<v(y)$.
+\end{enumerate}
+\end{exo}
+
+
+
+\begin{exo}
+For this exercise, you may use without proof that
+$\Z[\sqrt2\ii]=\{a+b\sqrt2\ii~:~a,b\in\Z\}$ is a Euclidean domain for
+the function $v(a+b\sqrt2\ii)=a^2+2b^2$.
+Find $\gcd(4-17\sqrt2\ii,-8-3\sqrt2\ii)$ in $\Z[\sqrt2\ii]$ and
+express it as a $\Z[\sqrt2\ii]$-linear combination of 
+$4-17\sqrt2\ii$ and $-8-3\sqrt2\ii$.
+\end{exo}
+
+\begin{exo}
+Find $\gcd(3+7\ii,2-3\ii)$ in $\Z[\ii]$ and express it as a
+$\Z[\ii]$-linear combination of $3+7\ii$ and $2-3\ii$.
+\end{exo}
+
+\begin{exo}
+Find $\gcd(6-2\ii,5,1+7\ii)$ in $\Z[\ii]$ and express it as a
+$\Z[\ii]$-linear combination of $6-2\ii,5$ and $1+7\ii$.
+\end{exo}
+
+\begin{exo}
+For this exercise, you may use without proof that
+$\Z[\sqrt2\ii]=\{a+b\sqrt2\ii~:~a,b\in\Z\}$ is a Euclidean domain for
+the function $v(a+b\sqrt2\ii)=a^2+2b^2$.
+Find $\gcd(2+4\sqrt2\ii,2-\sqrt2\ii,4+3\sqrt2\ii)$ in $\Z[\sqrt2\ii]$ and
+express it as a $\Z[\sqrt2\ii]$-linear combination of
+$2+4\sqrt2\ii,2-\sqrt2\ii$ and $4+3\sqrt2\ii$.
+\end{exo}
+
+\begin{exo}
+Let
+$$f=3x^4+5x^3+6x^2+3x+6\qbox{and}
+g=x^3+3x^2+5x+3\qbox{in $\Z/7[x]$.}$$
+Find $\gcd(f,g)$ and express it a a $\Z/7[x]$-linear combination of
+$f$ and $g$.
+\end{exo}
+
+
+\begin{exo}
+Find $\gcd\big(\dst\frac{105}{88},\frac{63}{64}\big)$ in $\wh{\Z}_3$
+and express it as a $\wh{\Z}_3$-linear combination of 
+$\dst\frac{105}{88}$ and $\dst\frac{63}{64}$.
+\end{exo}
+
+\begin{exo}
+Find $\gcd\big(3x^2+2x+1,x^3+2x^2+x\big)$ in $\Z/5[x]$, and express it as a 
+$\Z/5[x]$-linear combination of $3x^2+2x+1$ and $x^3+2x^2+x$.
+\end{exo}
+
+\begin{exo}
+Let $a=\dst\frac{315}8$ and $b=\dst\frac{2156}{2197}$ in
+$\widehat{\Z}_7$. 
+Use the Euclidean algorithm to find $\gcd(a,b)$ and express it as a 
+$\widehat{\Z}_7$-linear combination of $a$ and $b$.
+\end{exo}
+
+
+\begin{exo}
+Let $p$ be a prime.
+\begin{enumerate}\item
+Show that the ring of $p$-adics integers is isomorphic to a subring of
+the infinite cartesian product
+$$R=\Z/p\times\Z/p^2\times\Z/p^3\times\cdots$$
+That is, find an injective ring homomorphism $\Zp\longrightarrow R$.
+\item
+Write $\frac12\in\widehat{\Z}_7$ as an infinite tuple in the
+above product. More generally, write $\frac 12\in\Zp$.
+\item Same question with $-1$ instead of $\frac12$.
+\end{enumerate}
+\end{exo}
+
+\begin{exo}
+Let $a=3528$ and $b=2730$. Use the Euclidean algorithm to 
+calculate $\gcd(a,b)$ and express it as a $\Z$-linear
+combination of $a$ and $b$.
+\end{exo}
+
+\begin{exo}
+Let $f=2x^3-x^2+2$ and $g=x^2+x-1$ be two polynomials in
+$\Q[x]$. Calculate $\gcd(f,g)$ and express it as a $\Q[x]$-linear
+combination of $f$ and $g$.
+\end{exo}
+
+\begin{exo}
+Let $a=13+8\ii$ and $b=-10+11\ii$ in $\Z[\ii]$.
+Calculate $\gcd(a,b)$ and express it as a $\Z[\i]$-linear
+combination of $a$ and $b$.
+\end{exo}
+
+\begin{exo}
+Let $R=M_2(\R)$ be the ring of $2\times2$ matrices with real
+coefficients, and let
+$$S=\left\{\begin{pmatrix}a&0\\0&b\end{pmatrix}~:~a,b\in\R\right\}.$$
+\begin{enumerate}
+\item Prove that $S$ is a commutative unital subring of $R$.
+\item Decide is any of $R$ or $S$ is a Euclidean domain and prove your
+claim.
+\end{enumerate}
+\end{exo}
+
+\begin{exo}
+Let $p$ be a prime and
+$\dst\prod_{n\in\N}\Z/{p^n}=\Z/p\times\Z/p^2\times\Z/p^3\times\cdots$. Define
+$$A_p=\{(a_n)_{n\in\N}\in\prod_{n\in\N}\Z/{p^n}~:~\pi_{n,m}(a_n)=a_m\;
+\forall\;n\geq m\in\N\},$$
+where $\pi_{n,m}:\Z/{p^n}\to\Z/{p^m}$ is the canonical projection,
+mapping $\pi_{n,m}(a+p^n\Z)=a+p^m\Z$, for all $n\geq m\in\N$. For
+instance, for $p=5$, then
+$\pi_{2,1}(14)=4$, since $14=4+5^1\cdot2$.
+(We omit the $\widehat{\cdot}$ throughout).
+\begin{enumerate}
+\item Prove that $A_p$ is a commutative ring for the addition and
+multiplication defined componentwise.
+\item Suppose that $p=5$. Find the multiplicative inverse of the
+constant sequence $(2,2,2,\dots)$ as an element of $A_5$.
+\item Suppose that $p$ is odd. Find all the invertible elements in $A_p$.
+\item Prove that $A_p$ is a ring isomorphic to the ring $\Zp$ of $p$-adic
+integers, for any prime $p$. 
+\end{enumerate}
+\end{exo}
+
+\begin{exo}
+Let $\varphi:R\to S$ be a ring homomorphism. Suppose that $R$ is an
+integral domain.
+\begin{enumerate}
+\item Prove that $\im(\varphi)$ is a commutative subring of $S$ with
+identity element $\varphi(1_R)$.
+\item Suppose that $\varphi$ is surjective. Prove that $S$ need not be
+an integral domain.
+\end{enumerate}
+\end{exo}
+
+\begin{exo}
+Let $R$ be a commutative ring, and let $I$ be a prime ideal of $R$.
+A {\em multiplicative subset}\index{multiplicative subset} of $R$ is a
+nonempty subset $S\subseteq R$ such that
+$$ab\in S\qbox{for all $a,b\in S$.}$$
+Define $R_S$ to be the set of equivalence classes
+$$R_S=(R\times S)/\sim~,\qbox{where}(a,s)\sim(b,t)\Longleftrightarrow
+at=bs\in R.$$
+Define
+\begin{align*}
+(a,s)+(b,t)&=(at+bs,st),\qbox{and}\\
+(a,s)(b,t)&=(ab,st)
+\end{align*}
+\begin{enumerate}
+\item Prove that $I$ does not need to contain every zero divisor of $R$.
+\item Prove that $\hat I=R\setminus I$ is a multiplicative
+subset of $R$.
+\item Prove that $R_{\hat I}$ is a commutative ring for the above
+addition and multiplication of equivalence classes in $R_{\hat I}$.
+Give the multiplicative and the additive identity elements of
+$R_{\hat I}$.
+\item Suppose that $R=\Z$ and that $I=\{0\}$. Prove that
+$\Z_{\widehat{\{0\}}}\cong\Q$.
+\item Suppose that $R=\Z$ and $I=p\Z$ for some prime $p$. Prove that
+$Z_{\widehat{pZ}}\cong\Zp$.
+\end{enumerate}
+\end{exo}
+
+
+
+
+\begin{exo}
+Write a function {\sc Euclid} in python (https://www.python.org/)
+such that if you input two integers $a,b\in\Z$, the function returns
+the result of performing the Euclidean algorithm, i.e.
+{\sc Euclid}$(a,b)$ returns three integers $d,s$ and $t$, such that
+$d=\gcd(a,b)=sa+tb$.
+
+\end{exo}
+
+
+
+\vfill
+\newpage
+\begin{thebibliography}{WWWW}
+\bibitem{ash} R. Ash, {\em A Course In Commutative Algebra}, 2006.\hfill\par
+https://faculty.math.illinois.edu/$\sim$ r-ash/ComAlg.html
+\bibitem{am} M. Atiyah and I. MacDonald, {\em Introduction
+to Commutative Algebra}, Westview Press, 1994.
+\bibitem{hung} T.~W.~Hungerford, {\em Algebra}, Springer-Verlag 1974.
+\bibitem{jac} N. Jacobson, {\em Basic Algebra I}, W. H. Freeman and
+  Company, 1974. 
+\bibitem{lang} S. Lang, {\em Algebra},  Addison-Wesley Pub. Co, 1965.
+\bibitem{rot} J.~J.~Rotman, {\em Advanced Modern Algebra}, Pearson Education
+  2002.
+\end{thebibliography}
+
+\printindex
+\end{document}
